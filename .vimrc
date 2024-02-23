@@ -1,12 +1,14 @@
 set nocompatible
+set encoding=UTF-8
 
 call plug#begin()
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-commentary'
-Plug 'vim-airline/vim-airline'
 Plug 'dense-analysis/ale'
+Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
@@ -23,9 +25,12 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'qpkorr/vim-bufkill'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jordwalke/flatlandia'
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
-set nocompatible
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -34,6 +39,8 @@ set autoindent
 set hlsearch
 set background=dark
 set backspace=indent,eol,start
+
+colorscheme ayu
 
 syntax enable
 filetype plugin indent on
@@ -44,7 +51,6 @@ if (has("termguicolors"))
 endif
 let g:oceanic_next_terminal_bold = 1
 let g:oceanic_next_terminal_italic = 1
-" let g:airline_theme='solarized'
 
 " colorscheme apprentice
 
@@ -73,13 +79,15 @@ let mapleader = ","
 let g:indentLine_color_term = 239
 
 " Plugins
-set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.fzf
+
+let g:fzf_vim = {}
+let g:fzf_vim.preview_window = []
 
 filetype plugin indent on
 
 " Map NerdTree
-map <C-b> :NERDTreeToggle<CR>
+map <C-\> :NERDTreeToggle<CR>
 
 " Map Toggle IndentLine
 map <C-i> :IndentLinesToggle<CR>
@@ -101,7 +109,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " FZF exclude files based on .gitignore
-nnoremap <c-p> :Files<cr>
+nnoremap <leader>ff :Files<cr>
 
 " Window Tab
 nnoremap <C-N> :tabnew<cr>
@@ -109,13 +117,12 @@ nnoremap <C-Y> :tabprevious<CR>
 nnoremap <C-U> :tabnext<CR>
 
 " syntastic
-let g:syntastic_always_populate_loc_list=1
 let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
+let g:syntastic_aggregate_errors = 0
+
+let g:lsp_diagnostics_virtual_text_enabled = 1
+let g:lsp_diagnostics_signs_error = {'text': '✗'}
 
 "Prettier
 let g:prettier#autoformat = 0
@@ -130,8 +137,8 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
@@ -152,7 +159,10 @@ hi  SignColumn ctermbg=NONe guibg=NONE
 hi  LineNr ctermbg=NONE guibg=NONE
 hi  VertSplit cterm=NONE
 
-let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_override_sign_column_highlight = 1
+
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#enabled = 1
 
 " Edit vimr configuration file
 nnoremap confe :e $MYVIMRC<CR>
